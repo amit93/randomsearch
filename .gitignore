@@ -1,0 +1,9 @@
+.gradle
+.idea
+data
+build
+*.iml
+*.pdf
+ml-1M
+ml-10M
+ml-100k

@@ -1,0 +1,42 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {
+            url 'https://oss.sonatype.org/content/repositories/snapshots/'
+        }
+    }
+    dependencies {
+        classpath 'org.grouplens.lenskit:lenskit-gradle:2.2'
+    }
+}
+
+import org.grouplens.lenskit.gradle.*
+
+apply plugin: 'java'
+apply plugin: 'lenskit'
+
+ext.lenskitVersion = '2.2'
+ext.luceneVersion = '3.5.0'
+
+repositories {
+    mavenCentral()
+    maven {
+        url 'https://oss.sonatype.org/content/repositories/snapshots/'
+    }
+}
+
+dependencies {
+    compile "org.grouplens.lenskit:lenskit-all:$lenskitVersion"
+    compile "org.apache.lucene:lucene-analyzers:$luceneVersion"
+    compile "org.apache.lucene:lucene-queries:$luceneVersion"
+
+    runtime "org.grouplens.lenskit:lenskit-cli:$lenskitVersion"
+    compile "org.apache.commons:commons-math3:3.5"
+    testCompile "junit:junit:4.11"
+}
+
+task evaluate(type: LenskitEval) {
+    dependsOn classes
+    classpath sourceSets.main.runtimeClasspath
+    maxMemory '150g'
+}
